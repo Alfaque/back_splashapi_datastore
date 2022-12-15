@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.AppSplash" parent="Theme.SplashScreen">
+        <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/white</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">
+            @drawable/ic_baseline
+        </item>
+        <item name="android:windowSplashScreenAnimationDuration" tools:targetApi="s">1000</item>
+        <item name="postSplashScreenTheme">@style/Theme.Example_back_splashapi_datastore</item>
+        <item name="android:windowSplashScreenBrandingImage" tools:targetApi="s">
+            @drawable/ic_baseline_30fps
+        </item>
+
+        <!-- Status bar and Nav bar configs -->
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+</resources>
