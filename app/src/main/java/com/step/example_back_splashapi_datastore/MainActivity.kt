@@ -10,13 +10,12 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.longPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.core.IOException
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -82,15 +81,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun getData() {
 
-        var data: Flow<String> = dataStorePrefrence.data.map {
-            it[USER_FIRST_NAME] ?: ""
-//
-//            Toast.makeText(this@MainActivity, "firstName : $firstName", Toast.LENGTH_SHORT).show()
-
-
-        }
+        var data: Flow<String> = dataStorePrefrence.data
+            .catch {
+                if (it is IOException) {
+                    it.printStackTrace()
+                    emit(emptyPreferences())
+                } else {
+                    throw it
+                }
+            }
+            .map {
+                it[USER_FIRST_NAME] ?: ""
+            }
         GlobalScope.launch {
-
             data.collect {
                 Log.d("``TAG``", "getData: ")
             }
